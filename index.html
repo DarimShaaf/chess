@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Play chess against another player or the computer with adjustable difficulty levels from easy to grandmaster." />
+    <meta name="theme-color" content="#0d1117" />
+    <title>Chess — vs Player or Computer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>Chess</h1>
+        <div class="headerRight">
+          <div class="difficultyBar" id="difficultyBar" aria-hidden="true">
+            <span class="difficultyLabel">Difficulty</span>
+            <div class="seg" role="group" aria-label="Computer difficulty">
+              <button type="button" class="segBtn" data-difficulty="easy">Easy</button>
+              <button type="button" class="segBtn" data-difficulty="medium">Medium</button>
+              <button type="button" class="segBtn" data-difficulty="advanced">Advanced</button>
+              <button type="button" class="segBtn" data-difficulty="master">Master</button>
+              <button type="button" class="segBtn" data-difficulty="grandmaster">Grandmaster</button>
+            </div>
+          </div>
+          <span class="pill" id="turnPill">White to move</span>
+          <span class="pill" id="statusPill" aria-live="polite"></span>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="boardSection">
+          <div class="boardWrap">
+            <div class="board" id="board" role="grid" aria-label="Chess board"></div>
+          </div>
+        </section>
+
+        <aside class="side">
+          <div class="card">
+            <h2>Play mode</h2>
+            <div class="seg modeSeg" role="group" aria-label="Opponent">
+              <button type="button" class="segBtn isActive" data-mode="player">vs Player</button>
+              <button type="button" class="segBtn" data-mode="computer">vs Computer</button>
+            </div>
+          </div>
+          <div class="card">
+            <button type="button" class="btn fullWidth" id="newGameBtn">New game</button>
+          </div>
+          <div class="card hintCard">
+            <p class="hint">Click a piece, then a highlighted square to move. You play as <strong>White</strong>; computer is Black when vs Computer.</p>
+          </div>
+        </aside>
+      </main>
+    </div>
+    <script src="app.js" defer></script>
+  </body>
+</html>
