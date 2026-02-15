@@ -273,28 +273,32 @@ function getDepth() {
   }
 }
 
-function minimax(b, depth, maximizing) {
-  const moves = allLegalMovesOnBoard(b, maximizing ? 'b' : 'w');
+function minimax(b, depth, isBlackTurn, alpha = -1e9, beta = 1e9) {
+  const moves = allLegalMovesOnBoard(b, isBlackTurn ? 'b' : 'w');
   if (moves.length === 0) {
-    if (maximizing) return isInCheck(b, 'b') ? -1e6 : 0;
+    if (isBlackTurn) return isInCheck(b, 'b') ? -1e6 : 0;
     return isInCheck(b, 'w') ? 1e6 : 0;
   }
   if (depth === 0) return simpleEval(b);
 
-  if (maximizing) {
+  if (isBlackTurn) {
     let best = 1e9;
     for (const { from, to } of moves) {
       const next = applyMoveOnBoard(b, from, to);
-      const score = minimax(next, depth - 1, false);
+      const score = minimax(next, depth - 1, false, alpha, beta);
       best = Math.min(best, score);
+      beta = Math.min(beta, best);
+      if (beta <= alpha) break;
     }
     return best;
   } else {
     let best = -1e9;
     for (const { from, to } of moves) {
       const next = applyMoveOnBoard(b, from, to);
-      const score = minimax(next, depth - 1, true);
+      const score = minimax(next, depth - 1, true, alpha, beta);
       best = Math.max(best, score);
+      alpha = Math.max(alpha, best);
+      if (beta <= alpha) break;
     }
     return best;
   }
@@ -313,7 +317,7 @@ function computerMove() {
     bestMove = moves[Math.floor(Math.random() * moves.length)];
   } else {
     for (const move of moves) {
-      const next = applyMove(move.from, move.to);
+      const next = applyMoveOnBoard(board, move.from, move.to);
       const score = minimax(next, depth - 1, false);
       if (score < bestScore) { bestScore = score; bestMove = move; }
     }
